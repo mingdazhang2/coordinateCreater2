@@ -1,0 +1,141 @@
+
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+
+  <title>Image Coordinate Generator</title>
+
+
+
+
+  <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+  <script type="text/javascript" src="js/jquery.maphilight.min.js"></script>
+  <script type="text/javascript" src="js/jquery.uploadify-3.1.min.js"></script>
+  <script type="text/javascript" src="js/coordinateTool.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="css/snippet.css" type="text/css" media="screen" />
+	
+</head>
+
+
+<body>
+
+    <div id="navi" currentValue="#upload">    <ul>
+      <li><a href="#" rel="#upload" class="blue">Imagemap Generator</a></li>
+      <li><a href="#" rel="#infos" class="purple">Infos</a></li>
+      <li><a href="#" rel="#htmlcode" class="red">HTML Code</a></li>
+      <li><a href="#" rel="#htmlinfos2" class="yellow">Applications</a></li>
+      <li><a href="#" rel="#aboutinfos" class="green">About</a></li>
+    </ul>
+  </div>
+
+  <div id="upload" class="effect infobox">
+    <article>
+      <div class="uploadContainer infobox2">
+
+        <!-- <p id="uploadUndo2" class="hidden">Back to my image <i class="icon icon-back"></i></p> -->
+        <p class="headline">Drag your picture in the box</p>
+        <form action="#" id="linkform">
+          <input type="text" name="fileurl" value="" placeholder="" id="imageurl" class="insetEffect" style="height: 100px;"/>
+          <a href="#" class="imageurl_submit"></a>
+        </form>
+       </div>
+    </article>
+    
+  </div>
+
+
+  <div id="imagemap4posis">
+    <div id="newUpload"><span></span></div>
+    <div id="urlMessage"><p class="effect">You can't see an image?<br /><a href="#">Please upload a new one &raquo;</a></p></div>
+    <div id="dots">
+      <div id="mapContainer" class="effect">
+
+        <img src="#" id="main" class="imgmapMainImage" alt="" usemap="#map" />
+        <map name="map" id="map"></map>
+      </div>
+      <div class="form">
+                <div id="clearStyleButtons">
+
+          <div class="effect clearCurrentButton"><i class="icon icon-clear"></i> Clear Previous Coordinate</div>
+          <div class="effect clearAllButton"><i class="icon icon-clear"></i> Clear All Coordinates</div>
+          <div class="effect textareaButton3"><i class="icon icon-upload"></i> Change Image</div>
+        </div>
+        <input id="coordsText" class="effect" name="" type="text" value="" placeholder="&laquo; Coordinates &raquo;" />
+        <textarea name="" id="areaText" class="effect" placeholder="&laquo; XML-Code &raquo;"></textarea>
+      </div>
+  </div>
+  </div>
+
+
+
+  <!-- jQuery File Upload -->
+  <script src="js/jquery.ui.widget.js"></script>
+  <script src="js/jquery.iframe-transport.js"></script>
+  <script src="js/jquery.fileupload.js"></script>
+  <script src="js/script_upload.js"></script>
+
+  <script type="text/javascript">
+    /* init */
+    $(function() {
+              $('#upload').delay(600).slideDown(400, function() {
+          resizeHtml();
+        });
+        resizeHtml();
+          });
+
+
+  </script>
+
+  <script>
+  $(function () {
+
+    var dnd = {
+      init: function () {
+        var me = this;
+        me.url = document.querySelector('#imageurl');
+        me.submit = document.querySelector('.imageurl_submit');
+
+
+
+        me.url.addEventListener('dragover', function (e) {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'copy';
+        }, false);
+
+        me.url.addEventListener('drop', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          me.handleDrop(e.dataTransfer.files);
+        }, false);
+      },
+      handleDragOver: function () {
+      },
+      handleDrop: function (files) {
+        var me = this;
+        var file = files[0];
+
+        if (file && file.type.match('image.*')) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            me.url.value = e.target.result;
+            me.submit.click();
+          };
+
+          reader.readAsDataURL(file);
+        }
+      }
+    };
+
+
+    dnd.init();
+  });
+  </script>
+
+</body>
+</html>
