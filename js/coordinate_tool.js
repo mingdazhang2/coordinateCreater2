@@ -303,10 +303,10 @@ $(document).ready(function(){
 function drawBox(x,y){
 	
 	var offset = $('#mapContainer').offset();
-	var imgOffset = $('#imagemap4posis img').offset();
+	var imgOffset = $('#main').offset();
 	var gapX = parseInt(imgOffset.left)-parseInt(offset.left)
 	//var gapY = parseInt(imgOffset.top)-parseInt(offset.top)
-	var imgWidth=$('#imagemap4posis img').width()
+	var imgWidth=$('#main').width()
 	
 	//var labelWidth =$(".label")[0].width()
 	$(".panel").remove()
@@ -355,17 +355,21 @@ function drawPoint(x,y){
 	
 	//var value = $('#coordsText').val();
 	var offset = $('#mapContainer').offset();
-	var imgOffset = $('#imagemap4posis img').offset();
+	var imgOffset = $('#main').offset();
 	var gapX = parseInt(imgOffset.left)-parseInt(offset.left)
+	//alert(gapX)
 	//var gapY = parseInt(imgOffset.top)
-	var imgWidth=$('#imagemap4posis img').width()
+	var imgWidth=$('#main').width()
 	
 	var dotsWidth =$('#mapContainer').width()
 	var dotsHeight =$('#mapContainer').height()
 	x -= parseInt(offset.left);
 	y -= parseInt(offset.top);
 
-	if(x < gapX||x >imgWidth) { alert("You can't set a point out of the picture") }
+	if(x < gapX||x-gapX >imgWidth) { 
+		
+		alert(imgWidth)
+		}
 	else{
 			$('#mapContainer').append('<img class="dot" src="images/dot.png" style="left: '+ (x)/dotsWidth*100 +'%; top: '+ (y)/dotsHeight*100 +'%;" />');
 	type = 'point';
