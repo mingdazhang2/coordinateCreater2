@@ -367,8 +367,8 @@ function drawPoint(x,y){
 	y -= parseInt(offset.top);
 
 	if(x < gapX||x-gapX >imgWidth) { 
+		alert("You can't set a point out of the picture") 
 		
-		alert(imgWidth)
 		}
 	else{
 			$('#mapContainer').append('<img class="dot" src="images/dot.png" style="left: '+ (x)/dotsWidth*100 +'%; top: '+ (y)/dotsHeight*100 +'%;" />');
