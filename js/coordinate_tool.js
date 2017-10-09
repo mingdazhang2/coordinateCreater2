@@ -1,4 +1,4 @@
-/***********************************************************************
+/******************************************************************************
  * FILENAME : coordinate_tool.js 
  * 
  * LOADED BY : index.html 			PATH:../index.html
@@ -119,7 +119,7 @@ $(document).ready(function() {
     resizeUploadContainer();
     // Set a coordinate point
     $('#mapContainer').click(function(e) {
-        setCoordinates(e, 1);
+        setCoordinates(e);
         e.preventDefault();
     });
 
@@ -181,12 +181,26 @@ $(document).ready(function() {
     $('.clearCurrentButton').click(removeLast);
     /** @desc Delete the last point or box
      */
-    function removeLast() {
+//    function removeLast() {
+//        console.log('removelast()')
+//        var coordsContent = $('#coordsText').val().split(',');
+//        coordsContent = coordsContent.slice(0, coordsContent.length - 1)
+//        $('#coordsText').val(coordsContent)
+//        $('.dot:last').remove();
+//        var textareaVal = $('#areaText').val();
+//        var tmpArr = textareaVal.split('\n');
+//        textareaVal = tmpArr.slice(0, tmpArr.length - 1).toString();
+//        textareaVal = textareaVal.replace(/,/g, '\n');
+//        $('#areaText').val(textareaVal);
+//    }
+   function removeLast() {
         console.log('removelast()')
-        var coordsContent = $('#coordsText').val().split(',');
+        var coordsContent = $('#coordsText').val().split('|');
         coordsContent = coordsContent.slice(0, coordsContent.length - 1)
         $('#coordsText').val(coordsContent)
+        $('.label	:last').remove();
         $('.dot:last').remove();
+        
         var textareaVal = $('#areaText').val();
         var tmpArr = textareaVal.split('\n');
         textareaVal = tmpArr.slice(0, tmpArr.length - 1).toString();
@@ -253,12 +267,12 @@ function drawBox(x, y) {
     type = 'box'
     if (value == '' || typeof value == null) {
         value = (x - gapX) + '.' + y;
-        areaValue = "<question labelx='" + (x - gapX) + "' labely='" + y + "'>" + "" + "</question><answer>" + "" + "</answer>"
+        areaValue = "<question labelx='" + (x - gapX) + "' labely='" + y + "'>" + "" + "</question><answer>" + "" + "</answer></pair>"
         coordsLength = value.length;
         counter++;
     } else {
         value = value + ',' + (x - gapX) + '.' + y;
-        areaValue = areaValue + '\n' + "<question labelx='" + (x - gapX) + "' labely='" + y + "'>" + "" + "</question><answer>" + "" + "</answer>"
+        areaValue = areaValue + '' + "<question labelx='" + (x - gapX) + "' labely='" + y + "'>" + "" + "</question><answer>" + "" + "</answer></pair>"
         coordsLength = value.length;
     }
     $('#coordsText').val(value);
@@ -266,6 +280,8 @@ function drawBox(x, y) {
     $('#mapContainer').append($('.imgmapMainImage'));
     $('.imgmapMainImage').removeClass('maphilighted');
     $('canvas').remove();
+    status ='p'
+    
 }
 //@desc Draw a red pint on the picture 
 function drawPoint(x, y) {
@@ -285,12 +301,12 @@ function drawPoint(x, y) {
         type = 'point';
         if (value == '' || typeof value == null) {
             value = (x - gapX) + '.' + (y);
-            areaValue = "targetx='" + (x - gapX) + "' targety='" + (y) + "'";
+            areaValue  = "<pair "+"targetx='" + (x - gapX) + "' targety='" + (y) + "'>";
             coordsLength = value.length;
             counter++;
         } else {
-            value = value + ',' + (x - gapX) + '.' + (y);
-            areaValue = areaValue + '\n' + "targetx='" + (x - gapX) + "' targety='" + (y) + "'"
+            value = value + '|' + (x - gapX) + '.' + (y);
+            areaValue = areaValue + '\n' +"<pair " + "targetx='" + (x - gapX) + "' targety='" + (y) + "'"
             coordsLength = value.length;
         }
     }
@@ -299,7 +315,8 @@ function drawPoint(x, y) {
     $('#mapContainer').append($('.imgmapMainImage'));
     $('.imgmapMainImage').removeClass('maphilighted');
     $('canvas').remove();
-
+		status ='b';
+		
 }
 // The button of canceling draw a point or a label box
 function cancel() {
@@ -315,16 +332,22 @@ var textarea = '';
 var type = '';
 var value = ''
 var areaValue = '';
+var status = 'p'
 /** @desc Set the a point or a lable box coordinate
  * @para event 'e' - the window event
  */
-function setCoordinates(e, status) {
+function setCoordinates(e) {
     $(".panel").remove();
     value = $('#coordsText').val();
     areaValue = $('#areaText').val();
     var x = e.pageX;
     var y = e.pageY;
-    $('#dots').append('<div class= "panel" style="left: ' + (x - 1) + 'px; top: ' + (y - 1) + 'px;"><button class="option" onclick="drawBox(' + x + ',' + y + ')">Box</button><button class="option" onclick="drawPoint(' + x + ',' + y + ')">Point</button><button class="option" onclick="cancel()">Cancel</button></div>')
+    
+    if (status!=='p')
+    $('#dots').append('<div class= "panel" style="left: ' + (x - 1) + 'px; top: ' + (y - 1) + 'px;"><button class="option" onclick="drawBox(' + x + ',' + y + ')">Box</button><button class="option" onclick="cancel()">Cancel</button></div>')
+		else{
+		$('#dots').append('<div class= "panel" style="left: ' + (x - 1) + 'px; top: ' + (y - 1) + 'px;"><button class="option" onclick="drawPoint(' + x + ',' + y + ')">Point</button><button class="option" onclick="cancel()">Cancel</button></div>')
+	}
 }
 /** @desc Resize the upload box
  *
