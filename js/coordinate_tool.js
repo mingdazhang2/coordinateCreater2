@@ -214,6 +214,7 @@ $(document).ready(function() {
         $('#mapContainer').find('map').empty();
         $('.dot').remove();
         textarea = "";
+        status = 'p'
     });
     var timeoutIdShow = 0
     var timeoutIdHide = 0
@@ -306,7 +307,7 @@ function drawPoint(x, y) {
             counter++;
         } else {
             value = value + '|' + (x - gapX) + '.' + (y);
-            areaValue = areaValue + '\n' +"<pair " + "targetx='" + (x - gapX) + "' targety='" + (y) + "'"
+            areaValue = areaValue + '\n' +"<pair " + "targetx='" + (x - gapX) + "' targety='" + (y) + "'>"
             coordsLength = value.length;
         }
     }
